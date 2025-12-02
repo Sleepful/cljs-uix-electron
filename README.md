@@ -10,6 +10,8 @@ npx create-uix-app@latest my-app --re-frame # adds re-frame setup
 ```shell
 npm i # install NPM deps
 npm run dev # run dev build in watch mode with CLJS REPL
+# at the same time:
+npx electron . 
 ```
 
 ## Production
