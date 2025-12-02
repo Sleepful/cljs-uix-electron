@@ -34,5 +34,5 @@ npm elc-run # or just `npx electron .`
 
 ## Production
 ```shell
-npm run release # build production bundle
+npm run release # build production bundle (from uix boilerplate, has not been verified with electron)
 ```
