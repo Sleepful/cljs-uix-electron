@@ -1,10 +1,17 @@
-# re-uix
+# Uix + Electron starter
 
-Starter from [ https://github.com/pitch-io/uix-starter ](uix-starter)
+## Reframe + Uix
+
+Initial boiler plate starter from [ https://github.com/pitch-io/uix-starter ](uix-starter) by using:
 
 ```
 npx create-uix-app@latest my-app --re-frame # adds re-frame setup
 ```
+
+## However
+
+This repo has been expanded to build for Electron by following 
+[ thheller/electron-cljs ]( https://github.com/thheller/electron-cljs )
 
 ## Development
 
