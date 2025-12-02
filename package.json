@@ -4,9 +4,15 @@
     "dev": "shadow-cljs -A:dev watch app & npm run styles-dev",
     "release": "shadow-cljs -A:dev release app && npm run styles-release",
     "styles-dev": "onchange -o '> public/main.css && lightningcss --bundle public/main.css -o public/main.css' -i src/**/*.css -- cat src/**/*.css",
-    "styles-release": "cat src/**/*.css > public/main.css && lightningcss --minify --bundle public/main.css -o public/main.css"
+    "styles-release": "cat src/**/*.css > public/main.css && lightningcss --minify --bundle public/main.css -o public/main.css",
+    "elc-watch": "npx shadow-cljs -A:dev watch app electron",
+    "elc-run": "electron ."
   },
+  "main": "public/electron/electron.core.js",
+  "_main": "public/js/main.js",
   "devDependencies": {
+    "electron": "^39.2.4",
+    "electron-devtools-installer": "^4.0.0",
     "lightningcss-cli": "^1.19.0",
     "onchange": "^7.1.0",
     "react": "^19.0.0",

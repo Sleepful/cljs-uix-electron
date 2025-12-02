@@ -4,4 +4,20 @@
           {:target :browser
            :modules {:main {:entries [app.core]
                             :init-fn app.core/init}}
-           :devtools {:preloads [uix.preload devtools.preload]}}}}
+           :devtools {:preloads [uix.preload devtools.preload]}}
+
+          :electron
+          {:target :npm-module
+           :output-dir "public/electron"
+           :main electron.core/main
+           :runtime :node
+           :compiler-options {:infer-externs :auto
+                              :source-map true
+                              :source-map-include-sources-content true
+                              :source-map-detail-level :all
+
+                              ; :externs ["datascript/externs.js"
+                              ;           "externs.js"]
+                              :warnings {:fn-deprecated false
+                                         :redef false}}}}}
+

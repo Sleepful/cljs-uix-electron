@@ -81,6 +81,8 @@
 (defui app []
   (let [todos (uix.rf/use-subscribe [:app/todos])]
     ($ :.app
+        ; NOTE: links need to use `#/` as their prefix
+       ($ :div ($ :a {:href "#/about"} "About link"))
        ($ header)
        ($ text-field {:on-add-todo #(rf/dispatch [:todo/add %])})
        (for [[created-at todo] todos]
@@ -95,15 +97,15 @@
   (let [{:keys [view]} (use-route)]
     ($ view)))
 
-(defui home []
-  ($ :h1 "home page"))
-
 (defui about []
-  ($ :h1 "about page"))
+  ($ :div
+     {:style {:background "white"}}
+     ($ :h1 "about page")
+     ; NOTE: links need to use `#/` as their prefix
+     ($ :a {:href "#/"} "Home page")))
 
 (def routes
   [["/" {:view app}]
-   ["/home" {:view home}]
    ["/about" {:view about}]])
 
 (defui root-component []
@@ -121,4 +123,11 @@
    root))
 
 (defn ^:export init []
+  (-> (js/document.getElementById "test")
+      (.addEventListener "input"
+                         (fn [^js e]
+                           (js/window.electronAPI.setTitle (-> e .-target .-value)))))
   (render))
+
+(init) ; this runs the code inside electron, 
+       ; might not be necessary with browser, check later

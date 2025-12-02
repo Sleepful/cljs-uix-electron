@@ -17,6 +17,7 @@ pom.xml.asc
 node_modules/
 .clj-kondo/.cache
 /public/js
+/public/
 /public/main.css
 .idea
 *.iml
