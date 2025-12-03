@@ -14,10 +14,13 @@
            :height 600
            :webPreferences
            {:nodeIntegration true
-            :preload (path/join js/__dirname "electron.preload.js")}
+            ; Load the `/public/electron.preload.js` file to begin execution,
+            ; said file will load the compiled `electron.preload` and run its `init` function.
+            :preload (path/join js/__dirname ".." "preload.js")}
          ;; :transparent true
            :backgroundColor "#dddddd"})))
 
+  ; Log for illustration:
   (js/console.log "js/__dirname is: " js/__dirname)
   (.loadFile main-window (path/join js/__dirname ".." "index.html"))
 

@@ -8,8 +8,8 @@
     "elc-watch": "shadow-cljs -A:dev watch app electron & npm run styles-dev",
     "elc-run": "electron ."
   },
-  "main": "public/electron/electron.core.js",
-  "_main": "public/js/main.js",
+  "_main": "This property is used by Electron to find the entry point:",
+  "main": "public/electron.core.js",
   "devDependencies": {
     "electron": "^39.2.4",
     "electron-devtools-installer": "^4.0.0",

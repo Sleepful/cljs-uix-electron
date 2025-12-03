@@ -25,12 +25,16 @@ npm i # install NPM deps
 npm run dev # run dev build in watch mode with CLJS REPL
 ```
 
+The app source files are found in `./src/app/`. The output of compiling the main app files is found in `./public/js/`, this JavaScript output may be opened in the browser, and it is also the view that will be opened in Electron.
+
 ### Electron
 ```shell
 # in two shells:
 npm elc-watch
 npm elc-run # or just `npx electron .`
 ```
+
+The Electron source files are found in `./src/electron/`. The output of compiling the Electron files is found in `./public/electron/`
 
 ## Production
 ```shell

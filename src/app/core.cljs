@@ -80,18 +80,19 @@
 
 (defui app []
   (let [todos (uix.rf/use-subscribe [:app/todos])]
-    ($ :.app
-        ; NOTE: links need to use `#/` as their prefix
-       ($ :div ($ :a {:href "#/about"} "About link"))
-       ($ header)
-       ($ text-field {:on-add-todo #(rf/dispatch [:todo/add %])})
-       (for [[created-at todo] todos]
-         ($ todo-item
-            (assoc todo :created-at created-at
-                   :key created-at
-                   :on-remove-todo #(rf/dispatch [:todo/remove %])
-                   :on-set-todo-text #(rf/dispatch [:todo/set-text %1 %2]))))
-       ($ footer))))
+    ($ :div {:style {:display "flex" :flex-direction "column"}}
+       ($ :.app
+          ($ header)
+          ($ text-field {:on-add-todo #(rf/dispatch [:todo/add %])})
+          (for [[created-at todo] todos]
+            ($ todo-item
+               (assoc todo :created-at created-at
+                      :key created-at
+                      :on-remove-todo #(rf/dispatch [:todo/remove %])
+                      :on-set-todo-text #(rf/dispatch [:todo/set-text %1 %2]))))
+          ($ footer))
+         ; NOTE: links need to use `#/` as their prefix for Electron
+       ($ :a {:style {:padding "12px"} :href "#/about"} "About link"))))
 
 (defui app-with-router []
   (let [{:keys [view]} (use-route)]
@@ -101,16 +102,32 @@
   ($ :div
      {:style {:background "white"}}
      ($ :h1 "about page")
-     ; NOTE: links need to use `#/` as their prefix
+     ; NOTE: links need to use `#/` as their prefix for Electron
      ($ :a {:href "#/"} "Home page")))
 
 (def routes
-  [["/" {:view app}]
-   ["/about" {:view about}]])
+  [["/" {:view app}] ; empty page load
+   ["/#/" {:view app}] ; for links that return to home
+   ["/#/about" {:view about}]])
+
+(def error-boundary
+  (uix.core/create-error-boundary
+   {:derive-error-state (fn [error]
+                          {:error error})
+    :did-catch          (fn [error info]
+                          #_(js/console.log "Component did catch" error)
+                          info)}
+   (fn [[state set-state!] {:keys [children]}]
+     (if-some [error (:error state)]
+       ($ :<>
+          ($ :p.warning "There was an error rendering!")
+          ($ :pre (pr-str error)))
+       children))))
 
 (defui root-component []
-  ($ route-provider {:routes routes}
-     ($ app-with-router)))
+  ($ error-boundary
+     ($ route-provider {:routes routes}
+        ($ app-with-router))))
 
 (defonce root
   (uix.dom/create-root (js/document.getElementById "root")))
@@ -128,6 +145,3 @@
                          (fn [^js e]
                            (js/window.electronAPI.setTitle (-> e .-target .-value)))))
   (render))
-
-(init) ; this runs the code inside electron, 
-       ; might not be necessary with browser, check later

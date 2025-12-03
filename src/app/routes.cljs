@@ -16,20 +16,23 @@
   (let [router (uix/use-memo
                 #(rf/router routes {:data {:coercion rss/coercion}})
                 [routes])
-        [route set-route] (uix/use-state
-                           #(r/match-by-path
-                             router
-                             ; NOTE: location.hash is key for routes to work within Electron
-                             ; using "path" returns a filepath in the filesystem, which is not useful
-                             (or (not-empty js/location.hash)  "/")))]
+        match-by-hash (uix/use-callback
+                       #(r/match-by-path
+                         router
+                         ; NOTE: location.hash is key for routes to work within Electron,
+                         ; using location.path returns a filepath in the filesystem, which is not useful.
+                         (str "/" js/location.hash))
+                       [router])
+        [route set-route] (uix/use-state (match-by-hash))
+        set-hash-route (uix/use-callback #(set-route match-by-hash) [match-by-hash])]
     (uix/use-effect
-     #(do
-        (rfe/start! router set-route
-                    ; NOTE: use-fragment is key for routes to work wihin Electron,
-                    ; as electron routing only works with the anchor/hash links
-                    {:use-fragment true}))
+     #(rfe/start! router set-hash-route
+                     ; NOTE: use-fragment is key for routes to work wihin Electron,
+                     ; as electron routing only works with the anchor/hash links
+                  {:use-fragment true})
 
-     [router])
+     [router set-hash-route])
+
     ($ router-context {:value (:data route)}
        children)))
 

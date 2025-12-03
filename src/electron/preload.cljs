@@ -7,6 +7,3 @@
    #js {:setTitle
         (fn [title]
           (e/ipcRenderer.send "set-title" (str "via preload: " title)))}))
-
-(init)
-
