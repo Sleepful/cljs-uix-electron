@@ -1,1 +1,1 @@
-require("./electron/electron.preload.js").init();
+require("./build/electron/electron.preload.js").init();

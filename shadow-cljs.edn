@@ -2,6 +2,7 @@
  :dev-http {8080 "public"}
  :builds {:app
           {:target :browser
+           :output-dir "public/build/js"
            :modules {:main {:entries [app.core]
                             :init-fn app.core/init}}
            :devtools {:preloads [uix.preload devtools.preload]}
@@ -11,7 +12,7 @@
 
           :electron
           {:target :npm-module
-           :output-dir "public/electron"
+           :output-dir "public/build/electron"
            :main electron.core/main
            :runtime :node
            :compiler-options {:infer-externs :auto

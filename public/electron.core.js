@@ -1,1 +1,1 @@
-require("./electron/electron.core").init();
+require("./build/electron/electron.core").init();

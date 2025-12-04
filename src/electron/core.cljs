@@ -16,13 +16,14 @@
            {:nodeIntegration true
             ; Load the `/public/electron.preload.js` file to begin execution,
             ; said file will load the compiled `electron.preload` and run its `init` function.
-            :preload (path/join js/__dirname ".." "preload.js")}
+            ; The relative directory goes up two levels from `/public/build/electron` to `/public/preload.js`
+            :preload (path/join js/__dirname ".." ".." "electron.preload.js")}
          ;; :transparent true
            :backgroundColor "#dddddd"})))
 
   ; Log for illustration:
   (js/console.log "js/__dirname is: " js/__dirname)
-  (.loadFile main-window (path/join js/__dirname ".." "index.html"))
+  (.loadFile main-window (path/join js/__dirname ".." ".." "index.html"))
 
   (.on main-window "closed" #(set! main-window nil))
 
@@ -42,5 +43,3 @@
                       (fn []
                         (when-not (= js/process.platform "darwin")
                           (e/app.quit))))))
-
-(init)

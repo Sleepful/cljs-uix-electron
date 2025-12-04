@@ -1,24 +1,33 @@
 {
   "name": "re-uix",
+  "_scripts": "scripts with an underline are probably broken and have not been tested",
   "scripts": {
-    "dev": "shadow-cljs -A:dev watch app & npm run styles-dev",
-    "release": "shadow-cljs -A:dev release app && npm run styles-release",
-    "styles-dev": "onchange -o '> public/main.css && lightningcss --bundle public/main.css -o public/main.css' -i src/**/*.css -- cat src/**/*.css",
-    "styles-release": "cat src/**/*.css > public/main.css && lightningcss --minify --bundle public/main.css -o public/main.css",
-    "elc-watch": "shadow-cljs -A:dev watch app electron & npm run styles-dev",
-    "elc-run": "electron ."
+    "dev": "run-p --race dev-server dev-tailwind",
+    "dev-server": "shadow-cljs -A:dev watch app electron",
+    "_release": "shadow-cljs -A:dev release app && npm run styles-release",
+    "dev-tailwind": "npx @tailwindcss/cli -i ./src/app/core.css -o ./public/build/css/main.css --watch",
+    "_styles-dev": "onchange -o '> public/main.css && lightningcss --bundle public/main.css -o public/main.css' -i src/**/*.css -- cat src/**/*.css",
+    "_styles-release": "cat src/**/*.css > public/main.css && lightningcss --minify --bundle public/main.css -o public/main.css",
+    "el": "electron ."
   },
   "_main": "This property is used by Electron to find the entry point:",
   "main": "public/electron.core.js",
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.19",
+    "daisyui": "^5.5.8",
     "electron": "^39.2.4",
     "electron-devtools-installer": "^4.0.0",
     "lightningcss-cli": "^1.19.0",
+    "npm-run-all": "^4.1.5",
     "onchange": "^7.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-refresh": "^0.14.0",
     "shadow-cljs": "2.28.19",
     "use-sync-external-store": "^1.4.0"
+  },
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.17",
+    "tailwindcss": "^4.1.17"
   }
 }

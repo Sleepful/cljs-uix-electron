@@ -99,7 +99,7 @@
     ($ view)))
 
 (defui about []
-  ($ :div
+  ($ :div.prose
      {:style {:background "white"}}
      ($ :h1 "about page")
      ; NOTE: links need to use `#/` as their prefix for Electron
