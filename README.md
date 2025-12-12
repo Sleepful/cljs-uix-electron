@@ -1,3 +1,5 @@
+> For a similar starter with Wails, [look here](https://github.com/Sleepful/cljs-uix-wails)
+
 # Uix + Electron starter
 
 Includes simple reitit router example.
